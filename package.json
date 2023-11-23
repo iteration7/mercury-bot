@@ -1,0 +1,19 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "type": "module",
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.3.1",
+    "firebase": "^9.23.0",
+    "got": "^13.0.0",
+    "i": "^0.3.7",
+    "node": "^20.5.0",
+    "node-fetch": "^3.3.2",
+    "npm": "^9.8.1",
+    "undici": "^5.27.2"
+  }
+}
