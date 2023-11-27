@@ -56,5 +56,6 @@ export default async (i, interaction, minMax, reason) => {
   }
 
   await i.firestore.updateDoc(doc, userData);
-  
+
+  return userData;
 };

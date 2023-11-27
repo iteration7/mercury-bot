@@ -18,4 +18,6 @@ export default async (mod, interaction, amount, reason) => {
   ), {
     credits: mod.firestore.increment(amount)
   })
+
+  
 };
