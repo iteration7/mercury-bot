@@ -36,9 +36,7 @@ export default async (mod, message) => {
   }
 
   if(!message.author.bot) {
-    const user = await giveXP(mod, message, [0, 10], "sending a message");
-    if(message.author.id!=message.guild.ownerId) {
-      message.member.setNickname(message.author.globalName+`  [ ㅊ${user.credits} ]`)
-    }
+    const userData = await giveXP(mod, message, [0, 10], "sending a message");
+    
   }
 };

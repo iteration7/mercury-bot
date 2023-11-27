@@ -53,6 +53,10 @@ export default async (i, interaction, minMax, reason) => {
         ㅊ10 has been recieved
         `;
     log(i, message);
+    
+    if(interaction.author.id!=interaction.guild.ownerId) {
+      interaction.member.setNickname(interaction.author.globalName+`  [ ㅊ${userData.credits} ]`)
+    }
   }
 
   await i.firestore.updateDoc(doc, userData);
