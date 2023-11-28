@@ -25,7 +25,7 @@ export default async (mod, message) => {
   }
 
   //for bumping server
-  if(message.interaction||message.author.id=="302050872383242240"&&message.embeds[0]&&message.embeds[0].title=="DISBOARD: The Public Server List") {
+  if(message.author.id=="302050872383242240"&&message.embeds[0]&&message.embeds[0].title=="DISBOARD: The Public Server List") {
     await giveCredits(mod, message, 20, "bumping the server", message.interaction.user);
     await message.reply({
       content: `
