@@ -25,9 +25,8 @@ export default async (mod, message) => {
   }
 
   //for bumping server
-  if(message.author.id=="302050872383242240"&&message.embeds[0]&&message.embeds[0].title=="DISBOARD: The Public Server List") {
-    message.interaction.guild=message.guild;
-    await giveCredits(mod, message.interaction, 20, "bumping the server");
+  if(message.interaction||message.author.id=="302050872383242240"&&message.embeds[0]&&message.embeds[0].title=="DISBOARD: The Public Server List") {
+    await giveCredits(mod, message, 20, "bumping the server", message.interaction.user);
     await message.reply({
       content: `
       <@${message.interaction.user.id}> has recieved ㅊ20 for bumping the server.
@@ -37,6 +36,5 @@ export default async (mod, message) => {
 
   if(!message.author.bot) {
     const userData = await giveXP(mod, message, [0, 10], "sending a message");
-    
   }
 };

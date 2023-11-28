@@ -1,31 +1,29 @@
-export default async (mod, interaction, amount, reason) => {
-  if (interaction.author && interaction.author.bot) return;
+export default async (mod, interaction, amount, reason, user) => {
   
-  const interactionData = {
-    globalName: interaction.author
-      ? interaction.author.globalName
-      : interaction.user.globalName,
-    userId: interaction.author ? interaction.author.id : interaction.user.id,
-    guildId: interaction.guild.id,
-  };
-
+  if(!user) {
+    if(interaction.author) {
+      user=interaction.author;
+    }
+    else {
+      user=interaction.user;
+    }
+  }
   
   await mod.firestore.updateDoc(mod.firestore.doc(
     mod.db,
     "guilds",
-    interactionData.guildId,
+    interaction.guild.id,
     "users",
-    interactionData.userId
+    user.id
   ), {
     credits: mod.firestore.increment(amount)
   })
 
-  var user = await mod.getUser(interactionData.guildId, interactionData.userId);
-  const userData = user.data()
-
-  if(interactionData.userId!=interaction.guild.ownerId) {
+  const userData = (await mod.getUser(interaction.guild.id, user.id)).data()
+  
+  if(user.id!=interaction.guild.ownerId) {
     try {
-      interaction.member.setNickname(interactionData.globalName+` [ ㅊ${userData.credits} ]`)
+      (await interaction.guild.members.cache.get(user.id)).setNickname(user.globalName+` [ ㅊ${userData.credits} ]`)
     }
     catch(e) {
       console.log(e)
