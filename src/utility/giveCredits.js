@@ -2,9 +2,9 @@ export default async (mod, interaction, amount, reason) => {
   if (interaction.author && interaction.author.bot) return;
   
   const interactionData = {
-    username: interaction.author
-      ? interaction.author.username
-      : interaction.user.username,
+    globalName: interaction.author
+      ? interaction.author.globalName
+      : interaction.user.globalName,
     userId: interaction.author ? interaction.author.id : interaction.user.id,
     guildId: interaction.guild.id,
   };
@@ -23,7 +23,12 @@ export default async (mod, interaction, amount, reason) => {
   var user = await mod.getUser(interactionData.guildId, interactionData.userId);
   const userData = user.data()
 
-  if(interaction.author.id!=interaction.guild.ownerId) {
-    interaction.member.setNickname(interaction.author.globalName+`  [ ㅊ${userData.credits} ]`)
+  if(interactionData.userId!=interaction.guild.ownerId) {
+    try {
+      interaction.member.setNickname(interactionData.globalName+` [ ㅊ${userData.credits} ]`)
+    }
+    catch(e) {
+      console.log(e)
+    }
   }
 };

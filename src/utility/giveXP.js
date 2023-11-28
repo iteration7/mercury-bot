@@ -55,7 +55,12 @@ export default async (i, interaction, minMax, reason) => {
     log(i, message);
     
     if(interaction.author.id!=interaction.guild.ownerId) {
-      interaction.member.setNickname(interaction.author.globalName+`  [ ㅊ${userData.credits} ]`)
+      try {
+        interaction.member.setNickname(interaction.author.globalName+` [ ㅊ${userData.credits} ]`)
+      }
+      catch(e) {
+        console.log(e)
+      }
     }
   }
 
