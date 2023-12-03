@@ -1,5 +1,4 @@
 import { got } from "got";
-import { ApplicationCommandOptionType } from "discord.js";
 export default {
   name: "reddit",
   description: "get a post from reddit",
@@ -7,7 +6,7 @@ export default {
     {
       name: "subreddit",
       description: "subreddit to get a post from",
-      type: ApplicationCommandOptionType.String, // so i'm like having trouble with this sm :sob: plz help ty
+      type: 3,
       required: true,
     },
   ],
@@ -22,7 +21,7 @@ export default {
     } catch (e) {
       response = null;
       await interaction.reply({
-        content: "Couldn't getting subreddit: " + e,
+        content: "Couldn't get subreddit: " + e,
         ephemeral: true,
       });
     }
@@ -30,14 +29,16 @@ export default {
 
     const parentData = JSON.parse(response.body)[0];
     if (!parentData) {
-      interaction.reply({
+      return interaction.reply({
         content: "Couldn't get post.",
         ephemeral: true,
       });
-      return;
+      
     }
+    
     const data = parentData.data.children[0].data;
-
+    
+    var content = "";
     const permalink = data.permalink;
     var selftext = data.selftext ? data.selftext : "";
     const postUrl = `https://reddit.com${permalink}`;
@@ -47,6 +48,17 @@ export default {
     const postDownvotes = data.downs;
     const postComments = data.num_comments;
     const postAuthor = data.author;
+
+    //if nsfw
+    
+    if(data.over_18) {
+      return interaction.reply({
+        content: "Could not get post because post content is NSFW.",
+        ephemeral: true
+      })
+    }
+    
+    
     const embedPost = new mod.discord.EmbedBuilder()
       .setTitle(
         `
@@ -68,6 +80,7 @@ export default {
       .setURL(postUrl);
 
     const embeds = [embedPost];
+    const files = []
     const text = [];
     for (var i = 0; i < selftext.length; i += 2000) {
       text.push(selftext.slice(i, 2000 + i));
@@ -103,20 +116,23 @@ export default {
     for (var i in data.media) {
       if (typeof data.media[i] != "object") break;
       if (data.media[i].fallback_url)
-        interaction.channel.send({
-          content: "[⠀](" + data.media[i].fallback_url + ")",
-        });
+        files.push(data.media[i].fallback_url)
     }
     for (var i in data.preview) {
       if (i != "reddit_video_preview") continue;
-      if (data.preview[i].fallback_url)
-        interaction.channel.send({
-          content: "[⠀](" + data.preview[i].fallback_url + ")",
-        });
+      if (data.preview[i].fallback_url) {
+        files.push(data.preview[i].fallback_url)
+      }
     }
 
     await interaction.reply({
-      embeds: [...embeds],
+      content: "Successfuly fetched post.",
+      ephemeral: true
+    })
+    await interaction.channel.send({
+      content: content,
+      embeds: embeds,
+      files: files
     });
   },
 };

@@ -7,8 +7,15 @@ export default [
     }
   },
   {
+    name: "Custom name prefix (coming soon)",
+    cost: 1000,
+    buy: (mod, interaction) => {
+      interaction.reply("dumbass you just lost 1000 credits :joy:")
+    }
+  },
+  {
     name: "Custom Role",
-    cost: "100",
+    cost: "500",
     buy: (mod, interaction) => {
       interaction.reply({
         content: "Please wait for staff assistance.",

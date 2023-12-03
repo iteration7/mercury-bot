@@ -1,32 +1,29 @@
-export default async (mod, interaction, amount, reason, user) => {
-  
-  if(!user) {
-    if(interaction.author) {
-      user=interaction.author;
-    }
-    else {
-      user=interaction.user;
-    }
+export default async (mod, userData, interaction, minMax, reason) => {
+  var credits;
+  if(typeof minMax!="number") {
+    var min = Math.ceil(minMax[0]);
+    var max = Math.floor(minMax[1]);
+    credits = Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+  else {
+    credits = minMax;
   }
   
-  await mod.firestore.updateDoc(mod.firestore.doc(
-    mod.db,
-    "guilds",
-    interaction.guild.id,
-    "users",
-    user.id
-  ), {
-    credits: mod.firestore.increment(amount)
-  })
-
-  const userData = (await mod.getUser(interaction.guild.id, user.id)).data()
+  if(userData.credits+credits<0) {
+    return false;
+  }
+  else userData.credits+=credits;
   
+  var user = (interaction.author?interaction.author:interaction.user)
   if(user.id!=interaction.guild.ownerId) {
-    try {
-      (await interaction.guild.members.cache.get(user.id)).setNickname(user.globalName+` [ ㅊ${userData.credits} ]`)
-    }
-    catch(e) {
-      console.log(e)
-    }
+      try {
+        var member = await interaction.guild.members.fetch(user.id);
+        await member.setNickname(user.globalName+` [ ㅊ${userData.credits} ]`)
+      }
+      catch(e) {
+        console.log(e)
+      }
   }
+  
+  return credits;
 };

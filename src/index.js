@@ -54,8 +54,22 @@ await (async () => {
       try {
         const doc = firestore.doc(db, "guilds", guildId, "users", userId)
         const user = await firestore.getDoc(doc)
-        
+        if(!user.exists()) await firestore.setDoc(doc, {})
         return user;
+      }
+      catch(e) {
+        console.log(e)
+      }
+    },
+    setUser: async (guildId, userId, data) => {
+      try {
+        await firestore.updateDoc(firestore.doc(
+          db,
+          "guilds",
+          guildId,
+          "users",
+          userId
+        ), data)
       }
       catch(e) {
         console.log(e)
