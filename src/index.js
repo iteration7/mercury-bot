@@ -2,13 +2,15 @@ import fs from "node:fs";
 import path from "node:path";
 import * as discord from "discord.js";
 import { initializeApp } from "firebase/app";
-import * as firestore from "firebase/firestore";
+
+import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
+const firestore = { getFirestore, doc, getDoc, updateDoc, setDoc};
+
 import dotenv from "dotenv";
 dotenv.config();
 
 import { dirname } from "path";
 import { fileURLToPath } from "url";
-
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 //const intents = discord.IntentsBitField.Flags;
@@ -101,6 +103,6 @@ await (async () => {
       event(mod, ...args);
     });
   }
-
+  
   client.login(process.env.TOKEN);
 })();

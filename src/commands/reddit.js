@@ -83,7 +83,9 @@ export default {
     const files = []
     const text = [];
     for (var i = 0; i < selftext.length; i += 2000) {
-      text.push(selftext.slice(i, 2000 + i));
+      var newText = selftext.slice(i, 2000 + i);
+      newText=newText.replaceAll("amp;", "");
+      text.push(newText)
     }
     for (var i in text) {
       embeds.push(

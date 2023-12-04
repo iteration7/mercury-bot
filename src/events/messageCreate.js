@@ -11,7 +11,6 @@ export default async (mod, message) => {
     credits: 0,
     messages: 0
   }
-  console.log(userData)
   
   //if its a intro
   if(message.channel.name=="introductions") {
@@ -19,7 +18,7 @@ export default async (mod, message) => {
   }
   //for bumping server
   else if(message.author.id=="302050872383242240"&&message.embeds[0]&&message.embeds[0].title=="DISBOARD: The Public Server List") {
-    var credits = await giveCredits(mod, message, [0, 20], "bumping the server", message.interaction.user);
+    var credits = await giveCredits(mod, userData, message, [0, 20], "bumping the server", message.interaction.user);
     await message.reply({
       content: `
       <@${message.interaction.user.id}> has recieved ㅊ${credits} for bumping the server.
@@ -27,16 +26,47 @@ export default async (mod, message) => {
     })
   }
   
-    if(giveXP(mod, userData, message, [0, 20], "sending a message")) {
-      var credits = await giveCredits(mod, userData, message, [0, 20], "leveling up")
-      await log(mod, `
-        ## <@${message.author.id}> has leveled up!
-        ### LVL ${userData.level - 1} ≫ LVL ${userData.level}
-        ### You have recieved ㅊ${credits}.
-        `);
-    }
+  if(giveXP(mod, userData, message, [0, 20], "sending a message")) {
+    var credits = await giveCredits(mod, userData, message, [0, 20], "leveling up")
+    await log(mod, `
+      ## <@${message.author.id}> has leveled up!
+      ### LVL ${userData.level - 1} ≫ LVL ${userData.level}
+      ### You have recieved ㅊ${credits}.
+    `);
+  }
 
-    userData.messages++;
+  const messageCountRoles = [
+    {
+      count: 100,
+      id: "1176030533046784120"
+    },
+    {
+      count: 500,
+      id: "1176030643331813449"
+    },
+    {
+      count: 1000,
+      id: "1176030835770667038"
+    },
+    {
+      count: 5000,
+      id: "1181021696354951198"
+    },
+    {
+      count: 10000,
+      id: "1181021788566716448"
+    },
+    {
+      count: 100000,
+      id: "1181021861748940930"
+    }
+  ]
+  userData.messages++;
+  messageCountRoles.forEach((role) => {
+    if(userData.messages>=role.count) {
+      message.member.roles.add(role.id);
+    }
+  })
   
-    await mod.setUser(message.guild.id, message.author.id, userData)
+  await mod.setUser(message.guild.id, message.author.id, userData)
 };

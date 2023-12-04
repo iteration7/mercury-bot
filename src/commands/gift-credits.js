@@ -15,11 +15,20 @@ export default {
       type: 10,
       required: true,
     },
+    {
+      name: "reason",
+      description: "Reason your gifting credits.",
+      type: 3,
+    }
   ],
   execute: async (mod, interaction) => {
     const user = interaction.user;
     const user2 = (await interaction.guild.members.fetch(interaction.options.get("user").value)).user;
     const amount = interaction.options.get("amount").value;
+    
+    var reason = interaction.options.get("reason");
+    if(!reason) reason="";
+    else reason=reason.value;
     
     var userData = (await mod.getUser(interaction.guild.id, user.id)).data()
     var userData2 = (await mod.getUser(interaction.guild.id, user2.id)).data()
@@ -46,7 +55,7 @@ export default {
 
     interaction.reply({
       content: `
-      <@${user.id}> has given ㅊ${amount} to <@${user2.id}>
+      <@${user.id}> has given ㅊ${amount} to <@${user2.id}> ${reason}
       `
     })
   }
