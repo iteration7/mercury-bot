@@ -5,8 +5,6 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-import { ApplicationCommandOptionType } from "discord.js";
-
 export default {
   name: "stats",
   description: "get your current stats and level",
@@ -14,7 +12,7 @@ export default {
     {
       name: "user",
       description: "Get rank card of user",
-      type: ApplicationCommandOptionType.User,
+      type: 6,
     },
   ],
   execute: async function (mod, interaction) {
@@ -30,14 +28,7 @@ export default {
       })
     }
     
-    const doc = mod.firestore.doc(
-      mod.db,
-      "guilds",
-      interaction.guild.id,
-      "users",
-      user.id
-    );
-    var userData = (await mod.firestore.getDoc(doc)).data();
+    var userData = (await mod.getUser(interaction.guild.id, user.id)).data();
     var sorted = [{ level: 0, xp: 0 }];
     var rank = 0;
     const querySnapshot = await mod.firestore.getDocs(

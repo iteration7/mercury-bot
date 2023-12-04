@@ -1,4 +1,5 @@
 export default async (mod, reaction) => {
+  /*
   if (!reaction.message.author) await reaction.message.fetch();
   if (reaction.message.author.id == "1126699467928768514") {
     if (reaction.emoji.name == "📝") {
@@ -28,4 +29,5 @@ export default async (mod, reaction) => {
     }
     reaction.remove();
   }
+  */
 };

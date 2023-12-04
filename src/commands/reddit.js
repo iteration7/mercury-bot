@@ -1,11 +1,11 @@
 import { got } from "got";
 export default {
   name: "reddit",
-  description: "get a post from reddit",
+  description: "Get a post from reddit",
   options: [
     {
       name: "subreddit",
-      description: "subreddit to get a post from",
+      description: "Subreddit to get a post from",
       type: 3,
       required: true,
     },
@@ -33,11 +33,10 @@ export default {
         content: "Couldn't get post.",
         ephemeral: true,
       });
-      
     }
-    
+
     const data = parentData.data.children[0].data;
-    
+
     var content = "";
     const permalink = data.permalink;
     var selftext = data.selftext ? data.selftext : "";
@@ -50,15 +49,14 @@ export default {
     const postAuthor = data.author;
 
     //if nsfw
-    
-    if(data.over_18) {
+
+    if (data.over_18) {
       return interaction.reply({
         content: "Could not get post because post content is NSFW.",
-        ephemeral: true
-      })
+        ephemeral: true,
+      });
     }
-    
-    
+
     const embedPost = new mod.discord.EmbedBuilder()
       .setTitle(
         `
@@ -80,12 +78,12 @@ export default {
       .setURL(postUrl);
 
     const embeds = [embedPost];
-    const files = []
+    const files = [];
     const text = [];
     for (var i = 0; i < selftext.length; i += 2000) {
       var newText = selftext.slice(i, 2000 + i);
-      newText=newText.replaceAll("amp;", "");
-      text.push(newText)
+      newText = newText.replaceAll("amp;", "");
+      text.push(newText);
     }
     for (var i in text) {
       embeds.push(
@@ -117,24 +115,23 @@ export default {
 
     for (var i in data.media) {
       if (typeof data.media[i] != "object") break;
-      if (data.media[i].fallback_url)
-        files.push(data.media[i].fallback_url)
+      if (data.media[i].fallback_url) files.push(data.media[i].fallback_url);
     }
     for (var i in data.preview) {
       if (i != "reddit_video_preview") continue;
       if (data.preview[i].fallback_url) {
-        files.push(data.preview[i].fallback_url)
+        files.push(data.preview[i].fallback_url);
       }
     }
 
     await interaction.reply({
       content: "Successfuly fetched post.",
-      ephemeral: true
-    })
+      ephemeral: true,
+    });
     await interaction.channel.send({
       content: content,
       embeds: embeds,
-      files: files
+      files: files,
     });
   },
 };

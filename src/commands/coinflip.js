@@ -1,6 +1,6 @@
 export default {
   name: "coinflip",
-  description: "toss a coin! (heads or tails?)",
+  description: "Toss a coin! (heads or tails?)",
   execute: function (i, interaction) {
     const num = Math.floor(Math.random() * 2);
     let resultFlip = "";

@@ -3,8 +3,16 @@ import path from "node:path";
 import * as discord from "discord.js";
 import { initializeApp } from "firebase/app";
 
-import { getFirestore, doc, getDoc, updateDoc, setDoc } from "firebase/firestore";
-const firestore = { getFirestore, doc, getDoc, updateDoc, setDoc};
+import {
+  getFirestore,
+  doc,
+  collection,
+  getDoc,
+  getDocs,
+  updateDoc,
+  setDoc,
+} from "firebase/firestore";
+const firestore = { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc };
 
 import dotenv from "dotenv";
 dotenv.config();
@@ -54,29 +62,24 @@ await (async () => {
     commands,
     getUser: async (guildId, userId) => {
       try {
-        const doc = firestore.doc(db, "guilds", guildId, "users", userId)
-        const user = await firestore.getDoc(doc)
-        if(!user.exists()) await firestore.setDoc(doc, {})
+        const doc = firestore.doc(db, "guilds", guildId, "users", userId);
+        const user = await firestore.getDoc(doc);
+        if (!user.exists()) await firestore.setDoc(doc, {});
         return user;
-      }
-      catch(e) {
-        console.log(e)
+      } catch (e) {
+        console.log(e);
       }
     },
     setUser: async (guildId, userId, data) => {
       try {
-        await firestore.updateDoc(firestore.doc(
-          db,
-          "guilds",
-          guildId,
-          "users",
-          userId
-        ), data)
+        await firestore.updateDoc(
+          firestore.doc(db, "guilds", guildId, "users", userId),
+          data
+        );
+      } catch (e) {
+        console.log(e);
       }
-      catch(e) {
-        console.log(e)
-      }
-    }
+    },
   };
 
   //commands
@@ -103,6 +106,6 @@ await (async () => {
       event(mod, ...args);
     });
   }
-  
+
   client.login(process.env.TOKEN);
 })();

@@ -2,16 +2,14 @@ export default [
   {
     name: "Admin Perms",
     cost: "100000000000000",
-    buy: (mod, interaction) => {
-      
-    }
+    buy: (mod, interaction) => {},
   },
   {
     name: "Custom name prefix (coming soon)",
     cost: 1000,
     buy: (mod, interaction) => {
-      interaction.reply("dumbass you just lost 1000 credits :joy:")
-    }
+      interaction.reply("dumbass you just lost 1000 credits :joy:");
+    },
   },
   {
     name: "Custom Role",
@@ -19,15 +17,15 @@ export default [
     buy: (mod, interaction) => {
       interaction.reply({
         content: "Please wait for staff assistance.",
-        ephemeral: true
-      })
+        ephemeral: true,
+      });
 
       const channel = mod.client.channels.cache.get("1144206550370631720");
 
       channel.send({
-        content: `<@${interaction.user.id}> just bought a custom role.`
-      })
-    }
+        content: `<@${interaction.user.id}> just bought a custom role.`,
+      });
+    },
   },
   {
     name: "Vodka",
@@ -37,8 +35,8 @@ export default [
 
       channel.send({
         content: `
-        <@${interaction.user.id}> just bought 1 vodka.`
-      })
-    }
-  }
-]
+        <@${interaction.user.id}> just bought 1 vodka.`,
+      });
+    },
+  },
+];
