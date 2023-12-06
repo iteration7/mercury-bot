@@ -18,7 +18,7 @@ export default async (mod, userData, interaction, minMax, reason) => {
       var member = await interaction.guild.members.fetch(user.id);
       await member.setNickname(user.globalName + ` [ ㅊ${userData.credits} ]`);
     } catch (e) {
-      console.log(e);
+      console.log(e)
     }
   }
 
