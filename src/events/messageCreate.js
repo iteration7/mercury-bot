@@ -21,20 +21,23 @@ export default async (mod, message) => {
         credits: 0,
         messages: 0,
       };
-    
+
+    message.interaction.guild=message.guild;
     var credits = await giveCredits(
       mod,
       userData,
-      message,
+      message.interaction,
       [0, 20],
       "bumping the server",
-      message.interaction.user
     );
+    
     await message.reply({
       content: `
       <@${message.interaction.user.id}> has recieved ㅊ${credits} for bumping the server.
       `,
     });
+
+    await mod.setUser(message.guild.id, message.interaction.user.id, userData);
   }
 
   if(message.author.bot) return;
