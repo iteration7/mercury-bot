@@ -16,8 +16,8 @@ export default {
     var prevDate = userData.daily;
     
     if(!prevDate||new Date(currentDate)>new Date(prevDate)) {
-      var credits = await giveCredits(mod, interaction, userData, [0,50]);
-      var xp = await giveXP(mod, interaction, userData, [0,20])
+      var credits = await giveCredits(mod, interaction, userData, [0,100]);
+      var xp = await giveXP(mod, interaction, userData, [0,100])
       userData.daily=currentDate;
       await mod.setUser(interaction.user.id, userData)
 

@@ -3,7 +3,7 @@ import giveXP from "../utility/xp.js";
 import giveCredits from "../utility/credits.js";
 export default async (mod, message) => {
   if(!message.guild) return;
-  
+  message.user=message.author;
   //for bumping server
   if (
     message.author.id == "302050872383242240" &&

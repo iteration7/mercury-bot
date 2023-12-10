@@ -28,11 +28,11 @@ export default {
       })
     }
     
-    var userData = (await mod.getUser(interaction.guild.id, user.id)).data();
+    var userData = (await mod.getUser(user.id)).data();
     var sorted = [{ level: 0, xp: 0 }];
     var rank = 0;
     const querySnapshot = await mod.firestore.getDocs(
-      mod.firestore.collection(mod.db, "guilds", interaction.guild.id, "users")
+      mod.firestore.collection(mod.db, "users")
     );
     querySnapshot.forEach((doc, i) => {
       doc = doc.data();
@@ -97,6 +97,7 @@ export default {
     
     const icon = await loadImage(__dirname+'/../assets/credits.png');
 	  context.drawImage(icon, 20, canvas.height / 1.25, 50, 50);
+    
     
     context.beginPath();
     context.arc(100, 100, 75, 0, Math.PI * 2, true);
