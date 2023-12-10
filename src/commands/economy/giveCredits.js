@@ -1,6 +1,6 @@
-import giveCredits from "../utility/giveCredits.js";
+import giveCredits from "../../utility/credits.js";
 export default {
-  name: "gift-credits",
+  name: "give-credits",
   description: "Give someone some of your credits.",
   options: [
     {
@@ -34,8 +34,8 @@ export default {
     if (!reason) reason = "";
     else reason = reason.value;
 
-    var userData = (await mod.getUser(interaction.guild.id, user.id)).data();
-    var userData2 = (await mod.getUser(interaction.guild.id, user2.id)).data();
+    var userData = (await mod.getUser(user.id)).data();
+    var userData2 = (await mod.getUser(user2.id)).data();
 
     if (user2.bot) {
       return interaction.reply({
@@ -43,9 +43,9 @@ export default {
         ephemeral: true,
       });
     }
-    if (await giveCredits(mod, userData, interaction, -amount)) {
+    if (await giveCredits(mod, interaction, userData, -amount)) {
       interaction.author = user2;
-      await giveCredits(mod, userData2, interaction, amount);
+      await giveCredits(mod, interaction, userData2, amount);
     } else {
       return interaction.reply({
         content: "Not enouph credits.",
@@ -53,12 +53,12 @@ export default {
       });
     }
 
-    await mod.setUser(interaction.guild.id, user.id, userData);
-    await mod.setUser(interaction.guild.id, user2.id, userData2);
+    await mod.setUser(user.id, userData);
+    await mod.setUser(user2.id, userData2);
 
     interaction.reply({
       content: `
-      <@${user.id}> has given ㅊ${amount} to <@${user2.id}> ${reason}
+      <@${user.id}> has given ${mod.emojis.credit}${amount} to <@${user2.id}> ${reason}
       `,
     });
   },

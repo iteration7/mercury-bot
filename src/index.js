@@ -1,8 +1,13 @@
 import fs from "node:fs";
 import path from "node:path";
-import * as discord from "discord.js";
-import { initializeApp } from "firebase/app";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
+import * as discord from "discord.js";
+import { 
+  initializeApp 
+} from "firebase/app";
 import {
   getFirestore,
   doc,
@@ -17,9 +22,7 @@ const firestore = { getFirestore, doc, collection, getDoc, getDocs, updateDoc, s
 import dotenv from "dotenv";
 dotenv.config();
 
-import { dirname } from "path";
-import { fileURLToPath } from "url";
-const __dirname = dirname(fileURLToPath(import.meta.url));
+import emojis from "./utility/emojis.js"
 
 //const intents = discord.IntentsBitField.Flags;
 const client = new discord.Client({
@@ -60,9 +63,10 @@ await (async () => {
     firestore,
     db,
     commands,
-    getUser: async (guildId, userId) => {
+    emojis,
+    getUser: async (userId) => {
       try {
-        const doc = firestore.doc(db, "guilds", guildId, "users", userId);
+        const doc = firestore.doc(db, "users", userId);
         const user = await firestore.getDoc(doc);
         if (!user.exists()) await firestore.setDoc(doc, {});
         return user;
@@ -70,10 +74,10 @@ await (async () => {
         console.log(e);
       }
     },
-    setUser: async (guildId, userId, data) => {
+    setUser: async (userId, data) => {
       try {
         await firestore.updateDoc(
-          firestore.doc(db, "guilds", guildId, "users", userId),
+          firestore.doc(db, "users", userId),
           data
         );
       } catch (e) {
@@ -83,10 +87,14 @@ await (async () => {
   };
 
   //commands
-  const commandFiles = fs.readdirSync(path.join(__dirname, "/commands"));
-  for (const file of commandFiles) {
-    if (!file.endsWith(".js")) continue;
-    const command = (await import("./commands/" + file)).default;
+  const addCommands = async (path) => {
+    const commandFiles = fs.readdirSync(path);
+    for (const file of commandFiles) {
+    if (!file.includes(".")) {
+      await addCommands(path+"/"+file)
+    }
+    else if (file.endsWith(".js")) {
+    const command = (await import(path + "/" + file)).default;
     if ("execute" in command) {
       var execute = command.execute;
       commands.push(command);
@@ -95,7 +103,10 @@ await (async () => {
         `[WARNING] The command at ${filePath} is missing a required "execute" property.`
       );
     }
+      }
+    }
   }
+  await addCommands(path.join(__dirname, "/commands"))
 
   //events
   const eventFiles = fs.readdirSync(path.join(__dirname, "/events"));

@@ -1,4 +1,4 @@
-export default async (mod, userData, interaction, minMax, reason) => {
+export default async (mod, interaction, userData, minMax, reason) => {
   var credits;
   if (typeof minMax != "number") {
     var min = Math.ceil(minMax[0]);
@@ -12,15 +12,17 @@ export default async (mod, userData, interaction, minMax, reason) => {
     return false;
   } else userData.credits += credits;
 
+  
   var user = interaction.author ? interaction.author : interaction.user;
   if (user.id != interaction.guild.ownerId) {
     try {
       var member = await interaction.guild.members.fetch(user.id);
-      await member.setNickname(user.globalName + ` [ ㅊ${userData.credits} ]`);
+      await member.setNickname(user.globalName + ` [ ${mod.emojis.credit}${userData.credits} ]`);
     } catch (e) {
       console.log(e)
     }
   }
+  
 
   return credits;
 };

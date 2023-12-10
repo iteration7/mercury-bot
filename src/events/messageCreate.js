@@ -1,6 +1,6 @@
 import log from "../utility/log.js";
-import giveXP from "../utility/giveXP.js";
-import giveCredits from "../utility/giveCredits.js";
+import giveXP from "../utility/xp.js";
+import giveCredits from "../utility/credits.js";
 export default async (mod, message) => {
   if(!message.guild) return;
   
@@ -12,7 +12,7 @@ export default async (mod, message) => {
     message.embeds[0].description.startsWith("Bump done! :thumbsup:")
   ) {
     var userData = (
-      await mod.getUser(message.guild.id, message.interaction.user.id)
+      await mod.getUser(message.interaction.user.id)
     ).data();
     if (!userData)
       userData = {
@@ -25,25 +25,25 @@ export default async (mod, message) => {
     message.interaction.guild=message.guild;
     var credits = await giveCredits(
       mod,
-      userData,
       message.interaction,
+      userData,
       [0, 20],
       "bumping the server",
     );
     
     await message.reply({
       content: `
-      <@${message.interaction.user.id}> has recieved ㅊ${credits} for bumping the server.
+      <@${message.interaction.user.id}> has recieved ${mod.emojis.credit}${credits} for bumping the server.
       `,
     });
 
-    await mod.setUser(message.guild.id, message.interaction.user.id, userData);
+    await mod.setUser(message.interaction.user.id, userData);
   }
 
   if(message.author.bot) return;
   
   var userData = (
-    await mod.getUser(message.guild.id, message.author.id)
+    await mod.getUser(message.author.id)
   ).data();
   if (!userData)
     userData = {
@@ -58,23 +58,7 @@ export default async (mod, message) => {
     message.react("1174052304090038404");
   }
 
-  if (giveXP(mod, userData, message, [0, 20], "sending a message")) {
-    var credits = await giveCredits(
-      mod,
-      userData,
-      message,
-      [0, 20],
-      "leveling up"
-    );
-    await log(
-      mod,
-      `
-      ## <@${message.author.id}> has leveled up!
-      ### LVL ${userData.level - 1} ≫ LVL ${userData.level}
-      ### You have recieved ㅊ${credits}.
-    `
-    );
-  }
+  await giveXP(mod, message, userData, [0, 20], "sending a message")
 
   const messageCountRoles = [
     {
@@ -109,5 +93,5 @@ export default async (mod, message) => {
     }
   });
 
-  await mod.setUser(message.guild.id, message.author.id, userData);
+  await mod.setUser(message.author.id, userData);
 };
