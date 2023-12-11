@@ -17,14 +17,34 @@ export default {
     
     if(!prevDate||new Date(currentDate)>new Date(prevDate)) {
       var credits = await giveCredits(mod, interaction, userData, [0,100]);
-      var xp = await giveXP(mod, interaction, userData, [0,100])
+      var xp = await giveXP(mod, interaction, userData, [0,100]);
+      
       userData.daily=currentDate;
+      
+      currentDate=currentDate.split("/")
+      prevDate=prevDate.split("/")
+      
+      if(prevDate[0]+1==currentDate[0]&&prevDate[1]==currentDate[1]&&prevDate[2]==currentDate[2]) {
+        userData.dailyStreak++;
+      }
+      else {
+        userData.dailyStreak=1;
+      }
+      
       await mod.setUser(interaction.user.id, userData)
 
-      interaction.reply({
-        content: `
+      var embed = new mod.discord.EmbedBuilder()
+      .setTitle("Daily Reward")
+      .setDescription(`
         You have recieved *${mod.emojis.credit}${credits}* and *${xp}XP*. Come back tomorrow for more rewards!
-        `
+      `)
+      .setFooter({ text: `Daily Streak ~ ${userData.dailyStreak}` })
+      .setTimestamp()
+      .setColor("#7e3dff")
+      
+      interaction.reply({
+        content: "",
+        embeds: [embed]
       })
     }
     else {

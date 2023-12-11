@@ -75,7 +75,9 @@ export default {
         url: `https://reddit.com/u/${postAuthor}`,
       })
       .setColor("FF4500")
-      .setURL(postUrl);
+      .setURL(postUrl)
+      .setFooter({text: "r/"+subreddit})
+      .setTimestamp()
 
     const embeds = [embedPost];
     const files = [];

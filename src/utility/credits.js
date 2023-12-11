@@ -1,3 +1,4 @@
+import round from "./round.js"
 export default async (mod, interaction, userData, minMax, reason) => {
   var credits;
   if (typeof minMax != "number") {
@@ -17,7 +18,7 @@ export default async (mod, interaction, userData, minMax, reason) => {
   if (user.id != interaction.guild.ownerId) {
     try {
       var member = await interaction.guild.members.fetch(user.id);
-      await member.setNickname(user.globalName + ` [ ${mod.emojis.credit}${userData.credits} ]`);
+      await member.setNickname(user.globalName + ` [ ${mod.emojis.credit}${round(userData.credits)} ]`);
     } catch (e) {
       console.log(e)
     }
