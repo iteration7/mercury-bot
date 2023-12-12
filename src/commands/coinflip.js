@@ -29,14 +29,14 @@ export default {
         if(resultFlip=="Heads!") {
           await giveCredits(mod, interaction, userData, credits*2);
           await mod.setUser(interaction.user.id, userData)
-          embed.setDescription(`You spent ${mod.emojis.credit}${credits} and won ${mod.emojis.credit}${credits*2}!!!`).setColor("#0cff00")
+          embed.setDescription(`You bet ${mod.emojis.credit}${credits} and won ${mod.emojis.credit}${credits*2}!!!`).setColor("#0cff00")
           interaction.reply({
             content: ``,
             embeds: [embed]
           })
         }
         else {
-          embed.setDescription(`You spent ${mod.emojis.credit}${credits} and lost it all :c`).setColor("#ff0000")
+          embed.setDescription(`You bet ${mod.emojis.credit}${credits} and lost it all :c`).setColor("#ff0000")
           interaction.reply({
             content: "",
             embeds: [embed]

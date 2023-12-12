@@ -25,5 +25,5 @@ export default async (mod, interaction, userData, minMax, reason) => {
   }
   
 
-  return credits;
+  return round(credits);
 };

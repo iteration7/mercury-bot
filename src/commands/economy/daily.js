@@ -36,7 +36,7 @@ export default {
       var embed = new mod.discord.EmbedBuilder()
       .setTitle("Daily Reward")
       .setDescription(`
-        You have recieved *${mod.emojis.credit}${credits}* and *${xp}XP*. Come back tomorrow for more rewards!
+        You have recieved **${mod.emojis.credit}${credits}** and **${xp}XP**. Come back tomorrow for more rewards!
       `)
       .setFooter({ text: `Daily Streak ~ ${userData.dailyStreak}` })
       .setTimestamp()

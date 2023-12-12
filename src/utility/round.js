@@ -26,7 +26,7 @@ export default (num) => {
       } 
     }
 
-    if(num<1000) num=num.toFixed(1);
+    if(num<1000) num=num;
     else num=String(num).slice(0, slice)+"."+String(num).slice(slice, slice+1)
 
     return num+char;
