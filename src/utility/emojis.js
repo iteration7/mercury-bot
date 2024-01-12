@@ -1,3 +1,3 @@
 export default {
-  credit: "ㅊ"
-}
+  credit: "ㅊ",
+};

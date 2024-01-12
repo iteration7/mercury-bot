@@ -76,8 +76,8 @@ export default {
       })
       .setColor("FF4500")
       .setURL(postUrl)
-      .setFooter({text: "r/"+subreddit})
-      .setTimestamp()
+      .setFooter({ text: "r/" + subreddit })
+      .setTimestamp();
 
     const embeds = [embedPost];
     const files = [];

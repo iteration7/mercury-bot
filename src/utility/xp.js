@@ -1,6 +1,6 @@
 import level from "./level.js";
 import giveCredits from "./credits.js";
-import log from "./log.js"
+import log from "./log.js";
 export default async (mod, interaction, userData, minMax, reason) => {
   if (interaction.author && interaction.author.bot) return;
 
@@ -17,7 +17,7 @@ export default async (mod, interaction, userData, minMax, reason) => {
       mod,
       interaction,
       userData,
-      [0, 20],
+      [1, 20],
       "leveling up"
     );
     await log(
@@ -29,6 +29,6 @@ export default async (mod, interaction, userData, minMax, reason) => {
     `
     );
   }
-  
+
   return xp;
 };

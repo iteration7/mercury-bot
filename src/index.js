@@ -5,9 +5,7 @@ import { fileURLToPath } from "url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
 import * as discord from "discord.js";
-import { 
-  initializeApp 
-} from "firebase/app";
+import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   doc,
@@ -17,12 +15,20 @@ import {
   updateDoc,
   setDoc,
 } from "firebase/firestore";
-const firestore = { getFirestore, doc, collection, getDoc, getDocs, updateDoc, setDoc };
+const firestore = {
+  getFirestore,
+  doc,
+  collection,
+  getDoc,
+  getDocs,
+  updateDoc,
+  setDoc,
+};
 
 import dotenv from "dotenv";
 dotenv.config();
 
-import emojis from "./utility/emojis.js"
+import emojis from "./utility/emojis.js";
 
 //const intents = discord.IntentsBitField.Flags;
 const client = new discord.Client({
@@ -76,10 +82,7 @@ await (async () => {
     },
     setUser: async (userId, data) => {
       try {
-        await firestore.updateDoc(
-          firestore.doc(db, "users", userId),
-          data
-        );
+        await firestore.updateDoc(firestore.doc(db, "users", userId), data);
       } catch (e) {
         console.log(e);
       }
@@ -90,23 +93,22 @@ await (async () => {
   const addCommands = async (path) => {
     const commandFiles = fs.readdirSync(path);
     for (const file of commandFiles) {
-    if (!file.includes(".")) {
-      await addCommands(path+"/"+file)
-    }
-    else if (file.endsWith(".js")) {
-    const command = (await import(path + "/" + file)).default;
-    if ("execute" in command) {
-      var execute = command.execute;
-      commands.push(command);
-    } else {
-      console.log(
-        `[WARNING] The command at ${filePath} is missing a required "execute" property.`
-      );
-    }
+      if (!file.includes(".")) {
+        await addCommands(path + "/" + file);
+      } else if (file.endsWith(".js")) {
+        const command = (await import(path + "/" + file)).default;
+        if ("execute" in command) {
+          var execute = command.execute;
+          commands.push(command);
+        } else {
+          console.log(
+            `[WARNING] The command at ${filePath} is missing a required "execute" property.`
+          );
+        }
       }
     }
-  }
-  await addCommands(path.join(__dirname, "/commands"))
+  };
+  await addCommands(path.join(__dirname, "/commands"));
 
   //events
   const eventFiles = fs.readdirSync(path.join(__dirname, "/events"));

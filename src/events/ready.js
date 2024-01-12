@@ -20,6 +20,7 @@ export default async (mod) => {
       );
     }
   }
+
   console.log("Commands registered.");
   console.log("Mercury's running!");
 };

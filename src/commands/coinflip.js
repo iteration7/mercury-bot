@@ -18,41 +18,50 @@ export default {
     } else {
       resultFlip = "Heads!";
     }
-    var embed = new mod.discord.EmbedBuilder().setTitle(resultFlip).setColor("#7e3dff")
+    var embed = new mod.discord.EmbedBuilder()
+      .setTitle(resultFlip)
+      .setColor("#7e3dff");
     var credits = interaction.options.get("credits");
-    if(credits) {
-      credits=credits.value;
-      var userData = await mod.getUser(interaction.user.id)
-      userData=userData.data()
+    if (credits) {
+      credits = credits.value;
+      var userData = await mod.getUser(interaction.user.id);
+      userData = userData.data();
 
-      if(await giveCredits(mod, interaction, userData, -credits)) {
-        if(resultFlip=="Heads!") {
-          await giveCredits(mod, interaction, userData, credits*2);
-          await mod.setUser(interaction.user.id, userData)
-          embed.setDescription(`You bet ${mod.emojis.credit}${credits} and won ${mod.emojis.credit}${credits*2}!!!`).setColor("#0cff00")
+      if (await giveCredits(mod, interaction, userData, -credits)) {
+        if (resultFlip == "Heads!") {
+          await giveCredits(mod, interaction, userData, credits * 2);
+          await mod.setUser(interaction.user.id, userData);
+          embed
+            .setDescription(
+              `You bet ${mod.emojis.credit}${credits} and won ${
+                mod.emojis.credit
+              }${credits * 2}!!!`
+            )
+            .setColor("#0cff00");
           interaction.reply({
             content: ``,
-            embeds: [embed]
-          })
-        }
-        else {
-          embed.setDescription(`You bet ${mod.emojis.credit}${credits} and lost it all :c`).setColor("#ff0000")
+            embeds: [embed],
+          });
+        } else {
+          embed
+            .setDescription(
+              `You bet ${mod.emojis.credit}${credits} and lost it all :c`
+            )
+            .setColor("#ff0000");
           interaction.reply({
             content: "",
-            embeds: [embed]
-          })
+            embeds: [embed],
+          });
         }
-      }
-      else {
+      } else {
         interaction.reply({
-          content: "Not enouph credit."
-        })
+          content: "Not enouph credit.",
+        });
       }
-    }
-    else {
+    } else {
       interaction.reply({
         content: "",
-        embeds: [embed]
+        embeds: [embed],
       });
     }
   },

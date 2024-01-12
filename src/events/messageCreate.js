@@ -2,8 +2,8 @@ import log from "../utility/log.js";
 import giveXP from "../utility/xp.js";
 import giveCredits from "../utility/credits.js";
 export default async (mod, message) => {
-  if(!message.guild) return;
-  message.user=message.author;
+  if (!message.guild) return;
+  message.user = message.author;
   //for bumping server
   if (
     message.author.id == "302050872383242240" &&
@@ -11,9 +11,7 @@ export default async (mod, message) => {
     message.embeds[0].title == "DISBOARD: The Public Server List" &&
     message.embeds[0].description.startsWith("Bump done! :thumbsup:")
   ) {
-    var userData = (
-      await mod.getUser(message.interaction.user.id)
-    ).data();
+    var userData = (await mod.getUser(message.interaction.user.id)).data();
     if (!userData)
       userData = {
         level: 1,
@@ -22,15 +20,15 @@ export default async (mod, message) => {
         messages: 0,
       };
 
-    message.interaction.guild=message.guild;
+    message.interaction.guild = message.guild;
     var credits = await giveCredits(
       mod,
       message.interaction,
       userData,
-      [0, 20],
-      "bumping the server",
+      [1, 20],
+      "bumping the server"
     );
-    
+
     await message.reply({
       content: `
       <@${message.interaction.user.id}> has recieved ${mod.emojis.credit}${credits} for bumping the server.
@@ -40,11 +38,9 @@ export default async (mod, message) => {
     await mod.setUser(message.interaction.user.id, userData);
   }
 
-  if(message.author.bot) return;
-  
-  var userData = (
-    await mod.getUser(message.author.id)
-  ).data();
+  if (message.author.bot) return;
+
+  var userData = (await mod.getUser(message.author.id)).data();
   if (!userData)
     userData = {
       level: 1,
@@ -58,7 +54,7 @@ export default async (mod, message) => {
     message.react("1174052304090038404");
   }
 
-  await giveXP(mod, message, userData, [0, 20], "sending a message")
+  await giveXP(mod, message, userData, [0, 20], "sending a message");
 
   const messageCountRoles = [
     {
