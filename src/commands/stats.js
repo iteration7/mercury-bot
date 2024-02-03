@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+import round from '../utility/round.js';
+
 export default {
   name: "stats",
   description: "get your current stats and level",
@@ -80,24 +82,23 @@ export default {
     var width = (percent/100)*475
     context.beginPath()
     context.strokeStyle="#7e3dff"
-    context.roundRect(canvas.width / 3.5, canvas.height / 2.5, 475, 85, 25)
+    context.roundRect(canvas.width / 3.5, canvas.height / 2.5, 475, 85, 10)
     context.stroke()
 
     context.beginPath()
     context.fillStyle="#7e3dff"
-    context.roundRect(canvas.width / 3.5, canvas.height / 2.5, width, 85, 25)
+    context.roundRect(canvas.width / 3.5, canvas.height / 2.5, width, 85, 10)
     context.fill()
 
     applyText(55, `#${Number(rank)}`, canvas.width / 1.2, canvas.height / 3.6);
     applyText(55, "LVL "+userData.level, canvas.width / 3.2, canvas.height / 1.6);
-    applyText(55, userData.xp+"/"+(userData.level+1)*100, canvas.width / 1.5, canvas.height / 1.6);
-    
-    applyText(55, `Msgs: ${userData.messages}`, canvas.width / 2, canvas.height / 1.05)
-    applyText(55, `${userData.credits}`, 80, canvas.height / 1.05)
-    
+    applyText(55, round(userData.xp)+"/"+round((userData.level+1)*100), canvas.width / 1.5, canvas.height / 1.6);
+
     const icon = await loadImage(__dirname+'/../assets/credits.png');
-	  context.drawImage(icon, 20, canvas.height / 1.25, 50, 50);
+	  context.drawImage(icon, 30, canvas.height / 1.275, 50, 50);
+    applyText(55, `${round(userData.credits)}`, 80, canvas.height / 1.05)
     
+    applyText(55, `MESSAGES:${round(userData.messages)}`, canvas.width / 2.5, canvas.height / 1.05)
     
     context.beginPath();
     context.arc(100, 100, 75, 0, Math.PI * 2, true);

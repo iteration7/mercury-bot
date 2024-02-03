@@ -1,16 +1,15 @@
 export default async (mod, member) => {
   const leaveChannel = await member.guild.channels.fetch("1181069125976608768");
   var embed = new mod.discord.EmbedBuilder()
-    .setTitle("Goodbye.")
+    .setTitle(`${member.user.globalName} (${member.user.username}) just left the server.`)
     .setDescription(
-      `
-      <@${member.id}> just left the server.
-    `
+      `Goodbye.`
     )
     .setTimestamp()
     .setColor("#ff0000");
 
   leaveChannel.send({
+    content: `<@${member.id}>`,
     embeds: [embed],
   });
 };
