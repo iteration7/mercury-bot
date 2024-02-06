@@ -4,13 +4,13 @@ ENV NODE_ENV production
 ENV NPM_CONFIG_UPDATE_NOTIFIER false
 ENV NPM_CONFIG_FUND false
 
-RUN apk add --no-cache libuuid
+RUN apk add --no-cache libuuid python3
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm cli
+RUN npm ci
 
 COPY . ./
 
