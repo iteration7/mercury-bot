@@ -14,7 +14,7 @@ RUN apk add --update --no-cache \
     cairo-dev \
     pango-dev \
     jpeg-dev \
-    giflib-dev \
+    giflib-dev
 
 WORKDIR /app
 
