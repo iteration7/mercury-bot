@@ -62,6 +62,7 @@ await (async () => {
   const app = await initializeApp(firebaseConfig);
   const db = await firestore.getFirestore(app);
 
+  
   const commands = [];
   const mod = {
     discord,
@@ -72,7 +73,7 @@ await (async () => {
     emojis,
     getUser: async (userId) => {
       try {
-        const doc = firestore.doc(db, "users", userId);
+        const doc = firestore.doc(db, "servers", '1080239936814448801', 'members', userId);
         const user = await firestore.getDoc(doc);
         if (!user.exists()) await firestore.setDoc(doc, {});
         return user;
@@ -82,7 +83,7 @@ await (async () => {
     },
     setUser: async (userId, data) => {
       try {
-        await firestore.updateDoc(firestore.doc(db, "users", userId), data);
+        await firestore.updateDoc(firestore.doc(db, 'servers', '1080239936814448801', "members", userId), data);
       } catch (e) {
         console.log(e);
       }
