@@ -92,7 +92,7 @@ export default {
 
     applyText(55, `#${Number(rank)}`, canvas.width / 1.2, canvas.height / 3.6);
     applyText(55, "LVL "+userData.level, canvas.width / 3.2, canvas.height / 1.6);
-    applyText(55, round(userData.xp)+"/"+round((userData.level+1)*100), canvas.width / 1.5, canvas.height / 1.6);
+    applyText(55, round(userData.xp)+"/"+round((userData.level+1)*100), canvas.width / 1.7, canvas.height / 1.6);
 
     const icon = await loadImage(__dirname+'/../assets/credits.png');
 	  context.drawImage(icon, 30, canvas.height / 1.275, 50, 50);
