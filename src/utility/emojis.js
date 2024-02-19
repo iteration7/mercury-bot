@@ -1,3 +1,3 @@
 export default {
-  credit: "ㅊ",
+  credit: "<:credit:1208991512667488276>",
 };

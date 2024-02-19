@@ -61,6 +61,9 @@ export default {
     const canvas = createCanvas(700, 250);
 		const context = canvas.getContext('2d');
 
+    context.fillStyle = '#0000000';
+    context.fillRect(0, 0, 700, 250)
+    
     const applyText = (fontSize, text, ...pos) => {
 	    const context2 = canvas.getContext('2d');
 

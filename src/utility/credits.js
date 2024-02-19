@@ -18,7 +18,7 @@ export default async (mod, interaction, userData, minMax, reason) => {
     try {
       var member = await interaction.guild.members.fetch(user.id);
       await member.setNickname(
-        user.globalName + ` [ ${mod.emojis.credit}${round(userData.credits)} ]`
+        user.globalName /*+ ` [ ${mod.emojis.credit}${round(userData.credits)} ]`*/
       );
     } catch (e) {
       console.log(e);

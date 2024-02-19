@@ -1,3 +1,0 @@
-[phases.setup]
-    nixLibs = ['...', 'libuuid', 'libGL']
-    nixPkgs = ['...', 'libuuid', 'libGL']
