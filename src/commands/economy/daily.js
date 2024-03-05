@@ -11,10 +11,10 @@ export default {
     let day = dateObj.getUTCDate();
     let year = dateObj.getUTCFullYear();
 
-    var currentDate = day + "/" + month + "/" + year;
+    var currentDate = month + "/" + day + "/" + year;
 
     var prevDate = userData.daily;
-
+    console.log(currentDate, prevDate, new Date(currentDate) > new Date(prevDate))
     if (!prevDate || new Date(currentDate) > new Date(prevDate)) {
       var credits = await giveCredits(mod, interaction, userData, [20, 100]);
       var xp = await giveXP(mod, interaction, userData, [20, 100]);
