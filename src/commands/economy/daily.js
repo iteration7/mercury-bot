@@ -14,7 +14,7 @@ export default {
     var currentDate = month + "/" + day + "/" + year;
 
     var prevDate = userData.daily;
-    console.log(currentDate, prevDate, new Date(currentDate) > new Date(prevDate))
+    
     if (!prevDate || new Date(currentDate) > new Date(prevDate)) {
       var credits = await giveCredits(mod, interaction, userData, [20, 100]);
       var xp = await giveXP(mod, interaction, userData, [20, 100]);
@@ -22,13 +22,15 @@ export default {
       userData.daily = currentDate;
 
       currentDate = currentDate.split("/");
-      prevDate = prevDate.split("/");
+      
+      if(!prevDate) prevDate=new Date();
+      else prevDate = new Date(prevDate);
 
-      if (
-        prevDate[0] + 1 == currentDate[0] &&
-        prevDate[1] == currentDate[1] &&
-        prevDate[2] == currentDate[2]
-      ) {
+      const diffTime = Math.abs(dateObj - prevDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+      if(!userData.dailyStreak) userData.dailyStreak=1;
+      else if (diffDays==1) {
         userData.dailyStreak++;
       } else {
         userData.dailyStreak = 1;
